@@ -375,6 +375,9 @@ Page({
                     title: '支付失败',
                     duration: 1000
                   })
+                  that.setData({
+                    disabled: false,
+                  })
                 },
               })
             },
