@@ -88,9 +88,9 @@ Page({
       },
       success: function(res) {
         var tickets = res.data
-        var num = 0
+        var num = 1
         for (let i in tickets) {
-          tickets[i].num = 0
+          tickets[i].num = 1
           tickets[i].sy_num = Number(tickets[i].total_num) - Number(tickets[i].yg_num)
           num += tickets[i].num
         }
@@ -277,7 +277,7 @@ Page({
                   activity_img: res.tempFilePath,
                   activity_imgs: true
                 })
-                that.let_code(id)
+                // that.let_code(id)
               },
               fail:res=>{
                 console.log('下载活动主图报错信息',res)
@@ -457,6 +457,7 @@ Page({
         canvasId: 'cb',
         success: function(res) {
           console.log('保存活动海报')
+          wx.hideLoading()
           console.log(res.tempFilePath)
           that.setData({
             acticity_poster: res.tempFilePath
@@ -526,10 +527,14 @@ Page({
       })
     }
   },
-  // 点击分享到朋友圈
+  // 点击保存图片到相册圈
   Preservation: function(e) {
     var that = this
     var Preservation = that.data.Preservation
+      that.let_code(that.data.activity.id)
+      wx.showLoading({
+          title: '正在生成海报图片',
+      })
     // that.canvas()
     that.setData({
       Preservation: false,

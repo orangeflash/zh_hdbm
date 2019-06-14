@@ -24,8 +24,9 @@ Page({
     },
     onLoad: function(options) {
         var that = this
+        app.getSystem(that)
         app.getUserInfo(function(a) {
-            console.log(a)
+            console.log("%c 这是获取用户信息","color:orange;font-size:60rpx;")
             var location = wx.getStorageSync('location')
             let op = location.latitude + ',' + location.longitude
             // 加载城市
@@ -53,8 +54,6 @@ Page({
             'url': 'entry/wxapp/typeList',
             'cachetime': '0',
             success: function(res) {
-                console.log('这是分类')
-                console.log(res)
                 that.setData({
                     typeList: res.data
                 })
@@ -75,7 +74,6 @@ Page({
                 user_id: user_id,
             },
             success: res => {
-                console.log(res)
                 if (res.data == false) {
                     if (partner_lower != 'undefined') {
                         // 绑定分销商
@@ -87,8 +85,6 @@ Page({
                                 user_id: partner_lower
                             },
                             success: function(res) {
-                                console.log('这是成为下级分销商' + partner_lower)
-                                console.log(res)
                             },
                         })
                     }
@@ -99,8 +95,11 @@ Page({
     // 获取用户地址位置
     citys: function(e) {
         var that = this
+        console.log("%c 这是获取城市信息", "color:orange;font-size:60rpx;", that.data.system)
         if (that.data.system == null) {
-            that.citys()
+            setTimeout(function () {
+                that.citys()
+            },1000)
         } else {
             wx.setStorageSync('platform', that.data.system)
             wx.setNavigationBarTitle({
@@ -124,9 +123,10 @@ Page({
                             wx.setStorageSync('Location', res)
                             let latitude = res.latitude
                             let longitude = res.longitude
-                            that.setData({
-                                distance: res.latitude + ',' + res.longitude
-                            })
+                            // that.setData({
+                            //     distance: res.latitude + ',' + res.longitude
+                            // })
+                            app.globalData.distance = res.latitude + ',' + res.longitude
                             var demo = new QQMapWX({
                                 key: map_key // 必填
                             });
@@ -136,12 +136,10 @@ Page({
                                     longitude: longitude
                                 },
                                 success: function(res) {
-                                    console.log(res);
                                     var city = res.result.ad_info.city
                                     var citys = [
                                         res.result.ad_info.province, res.result.ad_info.city, res.result.ad_info.district,
                                     ]
-                                    console.log(city)
                                     wx.setStorageSync('location_city', citys)
                                     wx.setStorageSync('city', city)
                                     // 传城市
@@ -152,7 +150,6 @@ Page({
                                             cityname: city
                                         },
                                         success: function(res) {
-                                            console.log('这是保存城市')
 
                                         },
                                     })
@@ -163,10 +160,8 @@ Page({
                                     that.advert()
                                 },
                                 fail: function(res) {
-                                    console.log(res);
                                 },
                                 complete: function(res) {
-                                    console.log(res);
                                     if (res.message == 'request:fail url not in domain list') {
                                         wx.showModal({
                                             title: '',
@@ -190,7 +185,6 @@ Page({
                         }
                     })
                 } else {
-                    console.log('检测到不是空的')
                     that.setData({
                         city: wx.getStorageSync('city'),
                         Speed: 70
@@ -233,7 +227,6 @@ Page({
                 cityname: city
             },
             success: function(res) {
-                console.log('这是首页轮播图')
                 that.setData({
                     home_carousel_figure: res.data
                 })
@@ -248,8 +241,6 @@ Page({
                 cityname: city
             },
             success: function(res) {
-                console.log('这是专题精选')
-                console.log(res)
                 that.setData({
                     Thematic_selection: res.data
                 })
@@ -277,7 +268,6 @@ Page({
                 page: 1,
             },
             success: res => {
-                console.log('商品列表', res)
                 that.setData({
                     group_list: res.data,
                 })
@@ -288,8 +278,6 @@ Page({
             'url': 'entry/wxapp/getnav',
             'cachetime': '0',
             success: function(res) {
-                console.log('这是首页导航')
-                console.log(res)
                 if (res.data.length <= 5) {
                     that.setData({
                         height: 150
@@ -304,7 +292,6 @@ Page({
                 for (var i = 0, len = res.data.length; i < len; i += 10) {
                     nav.push(res.data.slice(i, i + 10))
                 }
-                console.log(nav)
                 that.setData({
                     nav: nav,
                     navs: res.data
@@ -319,12 +306,10 @@ Page({
     },
     activity: function(e) {
         var that = this
-        console.log(that.data)
         var typeList = that.data.typeList
         var today = that.data.today
         var page = that.data.page
         var orderby = that.data.orderby
-        console.log('当前的页数为' + page)
         var list = that.data.activity_list
         var activity = []
 
@@ -333,7 +318,6 @@ Page({
         } else {
             var city = wx.getStorageSync('city')
         }
-        console.log('当前选择的城市为' + city)
         var today = app.today_time()
         // 获取活动列表
         app.util.request({
@@ -343,12 +327,10 @@ Page({
                 page: page,
                 cityname: city,
                 orderby: orderby,
-                lat: that.data.distance.split(",")[0],
-                lng: that.data.distance.split(",")[1]
+                lat: app.globalData.distance.split(",")[0]||'',
+                lng: app.globalData.distance.split(",")[1]||''
             },
             success: function(res) {
-                console.log('这是活动列表')
-                console.log(res)
                 that.setData({
                     Speed: 100
                 })
@@ -389,7 +371,6 @@ Page({
                         // 计算活动发布时间的前一天
                         activity[i].yestoday = app.yestoday(activity[i].start_time)
                     }
-                    console.log(activity)
                     that.setData({
                         activity_list: list,
                         page: page + 1
@@ -439,16 +420,12 @@ Page({
                 img: '../img/jia@2x.png'
             }
         ]
-        console.log(db_tab)
         var url = wx.getStorageSync('url')
-        console.log(url)
         // 获取底部菜单栏
         app.util.request({
             'url': 'entry/wxapp/DbMenu',
             'cachetime': '0',
             success: function(res) {
-                console.log('这是底部菜单栏')
-                console.log(res)
                 for (let i in res.data) {
                     res.data[i].icon1 = url + res.data[i].icon1
                     res.data[i].icon2 = url + res.data[i].icon2
@@ -482,7 +459,6 @@ Page({
     },
     // 搜索
     search: function(e) {
-        console.log(e)
         var that = this
         wx.navigateTo({
             url: 'search',
@@ -517,7 +493,6 @@ Page({
     },
     // 导航跳转
     skip: function(e) {
-        console.log(e)
         // wx.chooseAddress({
         //   success: function (res) {
         //     console.log(res)
@@ -527,12 +502,9 @@ Page({
         var index = e.currentTarget.dataset.index
         var navs = that.data.navs
         var nav = navs[index]
-        console.log(nav)
         if (nav.src != '') {
             var src = nav.src.replace(/(\d+|\s+)/g, "");
             var id = nav.src.replace(/[^0-9]/ig, "");
-            console.log(src + id)
-            console.log(id)
             wx.navigateTo({
                 url: String(src) + String(id)
             })
@@ -540,8 +512,6 @@ Page({
             wx.navigateToMiniProgram({
                 appId: nav.appid,
                 success(res) {
-                    // 打开成功\
-                    console.log(res)
                 }
             })
         } else if (nav.wb_src != '') {
@@ -555,10 +525,8 @@ Page({
         // 允许从相机和相册扫码
         wx.scanCode({
             success: (res) => {
-                console.log(res)
                 var path = res.path
                 var arr = path.slice(42)
-                console.log(arr)
                 wx.navigateTo({
                     url: '../logs/inspect_ticket?arr=' + arr,
                 })
@@ -576,12 +544,9 @@ Page({
         var index = e.currentTarget.dataset.index
         var home_carousel_figure = that.data.home_carousel_figure
         var nav = home_carousel_figure[index]
-        console.log(nav)
         if (nav.src != '') {
             var src = nav.src.replace(/(\d+|\s+)/g, "");
             var id = nav.src.replace(/[^0-9]/ig, "");
-            console.log(src + id)
-            console.log(id)
             wx.navigateTo({
                 url: String(src) + String(id)
             })
@@ -590,7 +555,6 @@ Page({
                 appId: nav.appid,
                 success(res) {
                     // 打开成功\
-                    console.log(res)
                 }
             })
         } else if (nav.wb_src != '') {
@@ -604,12 +568,9 @@ Page({
         var index = e.currentTarget.dataset.index
         var home_carousel_figure = that.data.Thematic_selection
         var nav = home_carousel_figure[index]
-        console.log(nav)
         if (nav.src != '') {
             var src = nav.src.replace(/(\d+|\s+)/g, "");
             var id = nav.src.replace(/[^0-9]/ig, "");
-            console.log(src + id)
-            console.log(id)
             wx.navigateTo({
                 url: String(src) + String(id)
             })
@@ -618,7 +579,6 @@ Page({
                 appId: nav.appid,
                 success(res) {
                     // 打开成功\
-                    console.log(res)
                 }
             })
         } else if (nav.wb_src != '') {
@@ -634,7 +594,6 @@ Page({
         })
     },
     info: function(e) {
-        console.log(e)
         var id = e.currentTarget.id
         var type_name = e.currentTarget.dataset.type_name
         wx.navigateTo({
@@ -697,7 +656,6 @@ Page({
     address: function(e) {
         var that = this
         var city_open = that.data.system.city_open
-        console.log(city_open)
         if (city_open == 1) {
             this.setData({
                 page: 1,
@@ -717,10 +675,8 @@ Page({
         })
     },
     bindgetuserinfo: function(e) {
-        console.log(e)
         var that = this
         if (e.detail.errMsg == "getUserInfo:fail auth deny") {
-            console.log('用户拒绝授权')
             app.getUserInfo(function(userInfo) {
                 that.setData({
                     userInfo: userInfo,
@@ -728,7 +684,6 @@ Page({
                 })
             })
         } else {
-            console.log('用户允许授权')
             app.getUserInfo(function(userInfo) {
                 that.setData({
                     userInfo: userInfo,
@@ -803,9 +758,7 @@ Page({
         this.activity()
     },
     onReachBottom: function() {
-        console.log('上拉触底')
         this.activity()
-        console.log(this.data.page)
     },
     onShareAppMessage: function() {
 

@@ -223,8 +223,8 @@ Page({
     } else {
       console.log('输入完全了')
       that.setData({
-        sign_up: sign_up,
-        disabled:true,
+        disabled: true,
+        sign_up: sign_up
       })
       var ticket = that.data.ticket
       var user_id = that.data.user_id
@@ -277,14 +277,14 @@ Page({
         },
         success: function (res) {
           if (parseFloat(res.data).toString() == "NaN") {
-             wx.showModal({
-               title: '提示',
-               content: res.data,
-             })
+            wx.showModal({
+              title: '提示',
+              content: res.data,
+            })
             that.setData({
               disabled: false,
             })
-             return
+            return
           }
           console.log('提交报名')
           console.log(res)

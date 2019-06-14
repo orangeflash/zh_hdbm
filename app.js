@@ -30,7 +30,7 @@ App({
   getSystem: function (n) {
     var color = this.globalData.color;
     var system = this.globalData.system;
-    color && wx.setNavigationBarColor({
+      system && wx.setNavigationBarColor({
       frontColor: '#ffffff',
       backgroundColor: color,
     }); n.setData({
@@ -38,11 +38,11 @@ App({
       system: system
     })
     var e = this;
-    color || e.util.request({
+      system || e.util.request({
       'url': 'entry/wxapp/GetSystem',
       success: function (res) {
         console.log(res)
-        e.globalData.color = res.data.color ||'#F66926'
+        e.globalData.color = res.data.color || '#F66926'
         e.globalData.system = res.data
         e.getSystem(n)
       }
@@ -316,11 +316,9 @@ App({
       }
     ]
   },
-  globaldata: {
-    name: '你在搞笑么？'
-  },
   globalData: {
     userInfo: null,
-    sele_city: 1
+    sele_city: 1,
+    distance:""
   },
 });

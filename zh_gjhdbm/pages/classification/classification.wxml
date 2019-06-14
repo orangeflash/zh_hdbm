@@ -20,7 +20,7 @@
     <view class='fheaderzhe' hidden='{{zheceng}}'>
         <view class='fenleibox'>
             <!-- wx:if="{{activeIndex==0}}"  -->
-            <view class="tipon" wx:if="{{activeIndex==0}}">
+            <view class="tipon" wx:if="{{activeIndex==3}}">
                 <block wx:for="{{typeList}}" wx:for-index="{{index}}" wx:key="*this">
                     <view bindtap='type_name' data-id='{{item.id}}' data-name="{{item.type_name}}">{{item.type_name}}</view>
                 </block>
@@ -33,6 +33,11 @@
             <view class="tipon" wx:if="{{activeIndex==2}}">
                 <block wx:for="{{menu3}}" wx:for-index="{{index}}" wx:key="*this">
                     <view bindtap='start_time' data-type='{{item}}' data-name="{{item}}">{{item}}</view>
+                </block>
+            </view>
+            <view class="tipon" wx:if="{{activeIndex==0}}">
+                <block wx:for="{{menu4}}" wx:key="*this">
+                    <view bindtap='sort' data-index='{{index}}' data-name="{{item}}">{{item}}</view>
                 </block>
             </view>
         </view>

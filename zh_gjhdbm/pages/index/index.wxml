@@ -113,12 +113,12 @@
                   <view class="tuijian_img4">
                     <view>
                       <image class="tuijian_img1" src="../img/riqi.png"></image>
-                      <text>{{item.address}}</text>
+                      <text>{{item.start_time}}</text>
                     </view>
                   </view>
                   <view class="flex_center tuijian_img3">
                     <image class="tjdidian" src="../img/didian.png"></image>
-                    <text>{{item.cityname}}</text>
+                    <text>{{item.address}}</text>
                   </view>
                   <view class="flex_bet">
                     <view>

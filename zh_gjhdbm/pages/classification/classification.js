@@ -6,10 +6,14 @@ Page({
      * 页面的初始数据
      */
     data: {
+        orderby: '',
         menu2: ["线上活动", "线下活动"],
         menu3: ["今天", "明天", "后天"],
-        luntext: ['分类', '类型', '日期'],
-        navs: ['分类', '类型', '日期'],
+        luntext: ['筛选', '类型', '日期', '分类'],
+        navs: ['筛选', '类型', '日期', '分类'],
+        menu4: [
+            '距离最近', '价格最低', '热门活动', '综合排序'
+        ],
         activeIndex: 7,
         zheceng: true,
         page: 1,
@@ -89,6 +93,7 @@ Page({
         var typeList = that.data.typeList
         var today = that.data.today
         var page = that.data.page
+        var orderby = that.data.orderby
         console.log('当前的页数为' + page)
         var list = that.data.activity_list
         var activity = []
@@ -118,7 +123,10 @@ Page({
                 cityname: city,
                 start_time: start_time,
                 activity_type: activity_type,
-                type_id: type_id
+                type_id: type_id,
+                orderby: orderby,
+                lat: orderby == 1 ? app.globalData.distance.split(",")[0] || '' : '',
+                lng: orderby == 1 ? app.globalData.distance.split(",")[1] || '' : ''
             },
             success: function(res) {
                 console.log('这是活动列表')
@@ -265,7 +273,7 @@ Page({
         var that = this
         var type_id = e.currentTarget.dataset.id,
             luntext = that.data.luntext
-        luntext[0] = e.currentTarget.dataset.name
+        luntext[3] = e.currentTarget.dataset.name
         console.log(type_id)
         that.setData({
             type_id: type_id,
@@ -337,6 +345,26 @@ Page({
         }
         that.setData({
             start_time: start_time,
+            page: 1,
+            activity_list: [],
+            activeIndex: 6,
+            zheceng: true,
+            luntext: luntext,
+        })
+        that.activity()
+    },
+    sort(e) {
+        var that = this,
+            a = that.data,
+            index = e.currentTarget.dataset.index,
+            luntext = that.data.luntext
+        luntext[0] = e.currentTarget.dataset.name
+        console.log(index)
+        that.setData({
+            luntext: luntext,
+            orderby: index + 1,
+            zheceng: true,
+            activeIndex: 7,
             page: 1,
             activity_list: [],
             activeIndex: 6,

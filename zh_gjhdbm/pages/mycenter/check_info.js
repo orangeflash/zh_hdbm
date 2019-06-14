@@ -116,7 +116,7 @@ Page({
         if (res.confirm) {
           app.util.request({
             url: 'entry/wxapp/Refund',
-            data: { ticket_id: ticket_id },
+            data: { ticket_id: ticket_id,state:5},
             success: res => {
               console.log(res)
               if (res.data == 1) {
@@ -147,7 +147,7 @@ Page({
         if (res.confirm) {
           app.util.request({
             url: 'entry/wxapp/ApplyRefund',
-            data: { state: 2, ticket_id: details.ticket_id },
+            data: { state: 4, ticket_id: details.ticket_id },
             success: res => {
               console.log(res)
               if (res.data == 1) {

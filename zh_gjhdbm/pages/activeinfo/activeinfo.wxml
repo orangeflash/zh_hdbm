@@ -201,12 +201,12 @@
         <button open-type='share'></button>
       </view>
     </view>
-    <!-- <view class='rel'>
+    <view class='rel'>
       <view class='ab udlr' bindtap='Preservation'>
         <image mode='aspectFill' src='../img/schb.png'></image>
-        <text></text>
+        <text>保存图片到相册</text>
       </view>
-    </view> -->
+    </view>
     <view bindtap='share'>关闭</view>
   </view>
   <view class='ab'></view>

@@ -65,8 +65,8 @@ Page({
         'url': 'entry/wxapp/AddVerification',
         'cachetime': '0',
         data: {
-          user_id: user_id,
-          hx_id: user_id
+          user_id: userInfo.id,
+          hx_id: userInfo.id
         },
         success: function (res) {
           console.log(res)
