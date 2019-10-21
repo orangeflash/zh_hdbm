@@ -19,7 +19,7 @@ Page({
         orderby: 1,
         activity_list: [],
         list: [
-            '综合排序', '价格最低', '热门活动', '距离最近'
+            '距离最近', '价格最低', '热门活动', '综合排序'
         ]
     },
     onLoad: function(options) {
@@ -309,7 +309,7 @@ Page({
         var typeList = that.data.typeList
         var today = that.data.today
         var page = that.data.page
-        var orderby = that.data.orderby == 1 ? 4 : that.data.orderby == 4 ? 1 : that.data.orderby
+        var orderby = that.data.orderby
         var list = that.data.activity_list
         var activity = []
 

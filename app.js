@@ -104,7 +104,7 @@ App({
 
                       var url = currentPage.route //当前页面url
                       var options = currentPage.options //如果要获取url中所带的参数可以查看options
-                      if (url != 'zh_gjhdbm/pages/index/index') {
+                      if (url != 'zh_gjhdbm/pages/index/index'&&url != 'zh_gjhdbm/pages/logs/logs') {
                         wx.navigateTo({
                           url: '../login/index',
                         })
@@ -122,7 +122,7 @@ App({
                         'cachetime': '0',
                         data: { openid: openid, img: res1.userInfo.avatarUrl, name: res1.userInfo.nickName },
                         success: function (res) {
-                          console.log(res)
+                          // console.log(res)
                           getApp().getuniacid = res.data.uniacid;
                           getApp().user_info = res.data;
                           wx.setStorageSync('userInfo', res.data)

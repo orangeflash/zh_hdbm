@@ -3,19 +3,28 @@
 <view class='index'>
   <view class='logheader'>
     <image class='logheaderback' src='../img/background.png'></image>
-    <view class='logheaderbox'>
-      <view class='flex_center'>
-        <image class='loguserimg' src='{{userInfo.img}}'></image>
-        <view>
-          <view>{{userInfo.name}}</view>
-          <!-- <view class='loguserfont1'>0积分</view> -->
-        </view>
+    <view class="mrtxc" wx:if='{{hydl}}'>
+      <image class="mrtxl" src="../image/mtx.png"></image>
+      <view class="mrtxr">
+        <view class="wxyh">微信用户</view>
+        <button wx:if="{{hydl}}" open-type='getUserInfo' bindgetuserinfo='bindGetUserInfo' style="background:{{color}}" class='djsq'>点击授权</button>
       </view>
-      <!-- <view class='flex_center logqd'>
+    </view>
+    <block wx:else>
+      <view class='logheaderbox'>
+        <view class='flex_center'>
+          <image class='loguserimg' src='{{userInfo.img}}'></image>
+          <view>
+            <view>{{userInfo.name}}</view>
+            <!-- <view class='loguserfont1'>0积分</view> -->
+          </view>
+        </view>
+        <!-- <view class='flex_center logqd'>
         <image class='logqiandao' src='../img/qiandao.png'></image>
         <view>签到得积分</view>
       </view> -->
-    </view>
+      </view>
+    </block>
   </view>
 
   <view class='loglistbox'>

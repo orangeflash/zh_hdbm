@@ -8,13 +8,43 @@ Page({
   data: {
 
   },
-
+  bindGetUserInfo: function (res) {
+    console.log(res)
+    if (res.detail.errMsg == "getUserInfo:ok") {
+      this.setData({
+        hydl: false,
+      })
+      this.changeData();
+    }
+  },
+  changeData: function () {
+    var that = this;
+    //获取头像和名字
+    wx.getSetting({
+      success: function (res) {
+        if (res.authSetting['scope.userInfo']) {
+          app.getUserInfo(function (userInfo) {
+            that.setData({
+              userInfo: userInfo,
+              user_id: userInfo.id
+            })
+          })
+        }
+        else {
+          that.setData({
+            hydl: true,
+          })
+        }
+      }
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
     var that = this
     app.setNavigationBarColor(this);
+    this.changeData();
     wx.hideShareMenu()
     var db_tab = wx.getStorageSync('db_tab')
     var yes = app.contains(db_tab, '../logs/logs')
@@ -331,12 +361,6 @@ Page({
    */
   onShow: function() {
     var that = this
-    app.getUserInfo(function (userInfo) {
-      that.setData({
-        userInfo: userInfo,
-        user_id: userInfo.id
-      })
-    })
   },
 
   /**
