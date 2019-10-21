@@ -16,8 +16,9 @@ Page({
     var that = this
     app.setNavigationBarColor(this);
       that.setData({
-        link:options.link
+        link: wx.getStorageSync('websrc')
       })
+    console.log(options, wx.getStorageSync('websrc'))  
   },
 
   /**

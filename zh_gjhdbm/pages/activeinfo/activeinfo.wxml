@@ -225,7 +225,7 @@
       <image mode='aspectFill' src='{{acticity_poster}}'></image>
     </view>
     <button class='fon_30' bindtap='totemp' style='background:{{color}};color:#fff'>保存图片</button>
-    <view class='color_e fon_24 t_c pa'>保存至相册可以分享至朋友圈</view>
+    <view class='color_e fon_24 t_c pa'>保存到相册</view>
     <view class='ab t_c' bindtap='close_share'>×</view>
   </view>
 </view>
