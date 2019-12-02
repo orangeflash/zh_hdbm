@@ -43,7 +43,7 @@
           </view>
         </view>
         <view class="code_time">
-          <view class='phuobox'>地址：</view>
+          <view class='phuobox'>类型：</view>
           <view class='code_address' wx:if="{{details.hd_place==1}}">线上活动</view>
           <view class='code_address' wx:else>线下活动</view>
         </view>

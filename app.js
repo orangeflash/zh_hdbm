@@ -30,15 +30,15 @@ App({
   getSystem: function (n) {
     var color = this.globalData.color;
     var system = this.globalData.system;
-      system && wx.setNavigationBarColor({
+    system && (wx.setNavigationBarColor({
       frontColor: '#ffffff',
       backgroundColor: color,
-    }); n.setData({
+    }), n.setData({
       color: color,
       system: system
-    })
+    }))
     var e = this;
-      system || e.util.request({
+    system || e.util.request({
       'url': 'entry/wxapp/GetSystem',
       success: function (res) {
         console.log(res)
@@ -50,12 +50,13 @@ App({
   },
   setNavigationBarColor: function (n) {
     var t = this.globalData.color;
-    t && wx.setNavigationBarColor({
+    t && (wx.setNavigationBarColor({
       frontColor: '#ffffff',
       backgroundColor: t,
-    }); n.setData({
-      color: t
-    })
+    }),
+      n.setData({
+        color: t
+      }))
     var e = this;
     t || e.util.request({
       'url': 'entry/wxapp/getSystem',
